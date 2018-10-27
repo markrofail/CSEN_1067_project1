@@ -6,11 +6,15 @@ import matplotlib.pyplot as plt
 
 def results_parser(gs):
     params = gs.cv_results_['params']
-    params = [', '.join("{!s}={!r}".format(key,val) for (key,val) in x.items()) for x in params]
-
+    values = list()
+    for x in params:
+        for _, val in x.items():
+            values.append(str(val))
+    
+    print(values)
     scores = gs.cv_results_['mean_test_score']
     rank = gs.cv_results_['rank_test_score']
-    return(np.array(sorted(zip(rank, scores, params))))  
+    return np.array(sorted(zip(rank, scores, values)))
 
 
 def plot_confusion_matrix(cm, classes,
